@@ -7,8 +7,10 @@ const router = new express.Router()
 //fetch all items
 router.get('/items', async(req, res) => {
     try {
-        const items = await Item.find({})
-        res.status(200).send(items)
+        // const items = await Item.find({})
+        const items = {"totthpaste": 23}
+        console.log("items: ", items)
+        res.status(200).json(items)
     } catch (error) {
         res.status(400).send(error)
     }

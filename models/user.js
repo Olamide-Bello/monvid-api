@@ -31,13 +31,7 @@ const userSchema = new mongoose.Schema({
                 throw new Error(`password musn\'t contain password`)
             }
         }
-    },
-    tokens: [{
-        token: {
-            type: String,
-            required: true
-        }
-    }]
+    }
 }, {
     timestamps: true
 })
@@ -45,7 +39,7 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAuthToken = async function () {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET)
-    user.tokens = user.tokens.concat({ token })
+    // user.tokens = user.tokens.concat({ token })
     await user.save()
     return token
 }
