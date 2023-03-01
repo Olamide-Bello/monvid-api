@@ -14,7 +14,10 @@ router.get("/cart", Auth, async (req, res) => {
         if (cart && cart.items.length > 0) {
             res.status(200).send(cart);
         } else {
-            res.send(null);
+            res.status(404).json({
+                status: false,
+                data: []
+            });
         }
     } catch (error) {
         res.status(500).send();
@@ -23,8 +26,10 @@ router.get("/cart", Auth, async (req, res) => {
 
 //add cart
 router.post("/cart", Auth, async (req, res) => {
+    console.log("adding to cart")
     const owner = req.user._id;
     const { itemId, quantity } = req.body;
+    console.log(req.body)
 
     try {
         const cart = await Cart.findOne({ owner });
@@ -36,6 +41,10 @@ router.post("/cart", Auth, async (req, res) => {
         }
         const price = item.price;
         const name = item.name;
+        const image = item.image;
+        const brand = item.brand;
+        const category = item.category;
+
         //If cart already exists for user,
         if (cart) {
             const itemIndex = cart.items.findIndex((item) => item.itemId == itemId);
@@ -43,7 +52,7 @@ router.post("/cart", Auth, async (req, res) => {
 
             if (itemIndex > -1) {
                 let product = cart.items[itemIndex];
-                product.quantity += quantity;
+                product.quantity = quantity;
 
                 cart.bill = cart.items.reduce((acc, curr) => {
                     return acc + curr.quantity * curr.price;
@@ -53,11 +62,12 @@ router.post("/cart", Auth, async (req, res) => {
                 await cart.save();
                 res.status(200).send(cart);
             } else {
-                cart.items.push({ itemId, name, quantity, price });
+                cart.items.push({ itemId, name, brand, image, category, quantity, price });
                 cart.bill = cart.items.reduce((acc, curr) => {
                     return acc + curr.quantity * curr.price;
                 }, 0)
 
+                console.log(cart)
                 await cart.save();
                 res.status(200).send(cart);
             }

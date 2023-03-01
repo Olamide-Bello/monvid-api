@@ -3,7 +3,7 @@ const ObjectID = mongoose.Schema.Types.ObjectId
 
 const itemSchema = new mongoose.Schema({
     brand: {
-        type: ObjectID,
+        type: String,
         required: true,
         trim: true
     },
@@ -16,6 +16,11 @@ const itemSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    image: {
+        type: String,
+        required: true,
+        trim: true
+    },
     category: {
         type: String,
         required: true
@@ -23,7 +28,7 @@ const itemSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: true
-    }
+    },
 }, {
     timestamps: true
 })

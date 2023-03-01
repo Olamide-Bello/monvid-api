@@ -1,6 +1,7 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const bodyParser = require("body-parser");
+const nodemailer = require('nodemailer');
 const userRouter = require('./routers/user')
 const itemRouter = require('./routers/item')
 const cartRouter = require('./routers/cart')
@@ -30,3 +31,15 @@ app.get('/', function(req, res, next) {
 app.listen(port, () => {
     console.log('server listening on port ' + port)
 })
+
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      type: 'OAuth2',
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_PASSWORD,
+      clientId: process.env.OAUTH_CLIENTID,
+      clientSecret: process.env.OAUTH_CLIENT_SECRET,
+      refreshToken: process.env.OAUTH_REFRESH_TOKEN
+    }
+  });

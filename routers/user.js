@@ -6,6 +6,7 @@ const router = new express.Router()
 
 //signup
 router.post('/signup', async (req, res) => {
+    console.log("Yeah, I see you!!!")
     const user = new User(req.body)
 
     try {
@@ -25,7 +26,7 @@ router.post('/login', async (req, res) => {
 })
 
 //logout
-router.post('/users/logout', Auth, async (req, res) => {
+router.post('/logout', Auth, async (req, res) => {
 
     try {
         req.user.tokens = req.user.tokens.filter((token) => {
@@ -50,6 +51,25 @@ router.post('/users/logoutAll', Auth, async (req, res) => {
     }
 })
 
+//Get a user profile for admin
+router.get('/search/:query', Auth, async (req, res) => {
+    console.log("got here MF")
+    const queryRegx = new RegExp(req.params.query, 'i')
+    try{
+        const userList = await User.find({
+            $or: [
+              { name: { $regex: queryRegx } },
+            ],
+        })
+        if (userList.length === 0) {
+            return res.status(404).json({error: 'User not found'})
+        }
+        res.status(200).send(userList)
+    } catch (error) {
+        console.log(error)
+        res.status(400).send(error)
+    }
+} )
 
 async function testLogin(req, res){
     try {

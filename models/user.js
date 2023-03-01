@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
                 throw new Error(`password musn\'t contain password`)
             }
         }
+    },
+    userType: {
+        type: String,
+        required: true
     }
 }, {
     timestamps: true
