@@ -2,7 +2,6 @@
   "name": "monvid-api",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://myapp.herokuapp.com/",
   "description": "An e-commerce web application API",
   "main": "app.js",
   "scripts": {
@@ -30,5 +29,6 @@
   },
   "engines": {
     "node": "18.7.0"
-  }
+  },
+  "type": "module"
 }
