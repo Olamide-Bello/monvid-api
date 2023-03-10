@@ -12,7 +12,7 @@ const port = process.env.PORT || 5000
 
 const app = express()
 app.use(cors({
-    origin: 'http://localhost:3001'
+    origin: 'https://monvid.pages.dev/'
 }));
 
 app.use(express.json())
